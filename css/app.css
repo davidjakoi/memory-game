@@ -143,3 +143,20 @@ h2 {
       margin-bottom: 10px;
     }
 }
+
+@media screen and (max-width: 340px) {
+  .deck {
+    width: 300px;
+    min-height: 400px;
+  }
+
+  .deck .card {
+    height: 55px;
+    width: 55px;
+    margin-bottom: 8px;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+}

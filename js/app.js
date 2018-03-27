@@ -7,6 +7,7 @@
  let matchedCards=0;
  let second=0;
  let minute=0;
+ let interval;
 
 shuffle(names);
 let table=document.createElement("ul");
@@ -82,10 +83,9 @@ for(var i=0; i<cards.length;i++){
 
   function cardOpen(){
     openedCards.push(this);
-
-
+    moveCounter();
     if(openedCards.length===2){
-  moveCounter();
+
   if(openedCards[0].firstElementChild.className===openedCards[1].firstElementChild.className){
     matched();
   } else{
@@ -106,12 +106,14 @@ for(var i=0; i<cards.length;i++){
   if(matchedCards==8){
     document.getElementById("totalTime").innerHTML=minute+": "+second;
     document.getElementById("totalMoves").innerHTML=moves;
+    second=0;
+    minute=0;
     let finalStars=document.getElementById("totalStars");
     let stars=finalStars.getElementsByClassName("fa fa-star");
     table.innerHTML="";
-    if(moves>10 && moves<20){
+    if(moves>20 && moves<30){
     stars[2].setAttribute("class", "");
-    }else if(moves>20){
+    }else if(moves>30){
     stars[2].setAttribute("class","");
     stars[1].setAttribute("class", "");
     }
@@ -129,8 +131,8 @@ for(var i=0; i<cards.length;i++){
   openedCards[1].classList.add("unmatched");
 
   setTimeout(function(){
-    openedCards[0].classList.remove("show", "open");
-    openedCards[1].classList.remove("show", "open");
+    openedCards[0].classList.remove("show", "open", "disabled");
+    openedCards[1].classList.remove("show", "open", "disabled");
     openedCards=[];
   },800);
   }
@@ -151,8 +153,12 @@ for(var i=0; i<cards.length;i++){
 // function to start a new game, reset timer, stars, moves and shuffle cards
 
   function newGame(){
+    matchedCards=0;
     second=0;
     minute=0;
+    moves=0;
+    openedCards=[];
+    clearInterval(interval);
     startTime();
     shuffle(names);
     cards=shuffle(cards);
@@ -163,7 +169,7 @@ for(var i=0; i<cards.length;i++){
     });
     cards[i].classList.remove("show","open","match","disabled");
   }
-    moves=0;
+
     counter.innerHTML=moves;
     stars[1].setAttribute("class","fa fa-star");
     stars[2].setAttribute("class","fa fa-star");
@@ -172,8 +178,9 @@ for(var i=0; i<cards.length;i++){
 //timer
 
   let timer=document.getElementById("timer");
+
   function startTime(){
-    setInterval(function(){
+      interval=setInterval(function(){
       timer.innerHTML=minute+"m "+second+"s";
       second++;
       if(second==60){
@@ -181,4 +188,4 @@ for(var i=0; i<cards.length;i++){
         second=0;
       }
     },1000);
-  }
+}
